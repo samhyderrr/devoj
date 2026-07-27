@@ -14,19 +14,6 @@ fi
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Eq = equals
 #Ne = not equal to
 #Lt = less than
