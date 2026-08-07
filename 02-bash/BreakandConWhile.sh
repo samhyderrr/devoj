@@ -14,3 +14,22 @@ do                                         # Start of the while loop.
     fi                                     # End of the if statement.
 
 done                                       # End of the while loop.
+
+
+# ================================================
+
+# Start count at 1.
+
+# Loop forever.
+
+# Print the current count.
+
+# Increase the count by 1.
+
+# If the count has become 4...
+
+# Stop the loop.
+
+# Otherwise...
+
+# Go back to the top and repeat.
