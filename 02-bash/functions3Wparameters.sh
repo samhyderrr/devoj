@@ -11,4 +11,16 @@ print_args() {                                  # Create a function called 'prin
 
 }                                               # End of the function.
 
-print_args "Sam" "John" "Doe"                   # Call the function and pass three arguments: Sam, John and Doe.
+print_args  "Sam" "John" "Doe"                   # Call the function and pass three arguments: Sam, John and Doe.
+
+# =============================================================
+
+# Syntax	    Meaning
+# $0	        Script name
+# $1	        First argument
+# $2	        Second argument
+# $3	        Third argument
+# $#	        Number of arguments
+# $@	        All arguments
+
+# =============================================================
