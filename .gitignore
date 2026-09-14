@@ -57,7 +57,6 @@ kubeconfig
 
 # Docker
 docker-compose.override.yml
-.dockerignore
 .docker/
 .dockercfg
 
@@ -87,6 +86,7 @@ coverage.xml
 *.eggs/
 .installed.cfg
 *.dist-info/
+.venv/
 
 # CI/CD
 build/
