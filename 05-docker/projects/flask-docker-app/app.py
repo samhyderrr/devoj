@@ -1,10 +1,22 @@
 from flask import Flask
+import MySQLdb
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Hello from my Docker app!'
+    db = MySQLdb.connect(
+        host="db",
+        user="root",
+        passwd="my-secret-pw",
+        db="mysql"
+    )
+
+    cur = db.cursor()
+    cur.execute("SELECT VERSION()")
+    version = cur.fetchone()
+
+    return f'Hello from Docker! MySQL version: {version[0]}'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002)
