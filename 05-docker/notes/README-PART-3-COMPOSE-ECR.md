@@ -623,3 +623,187 @@ Part 3 adds orchestration and image distribution:
 ```
 
 The main lesson from this section is that Docker is not only about running individual containers. Compose provides a repeatable way to define a multi-container application, while a registry such as ECR provides a way to store and distribute the resulting images for deployment.
+
+---
+
+# 15. Multi-Stage Docker Build
+
+The Flask image was then refactored to use a **multi-stage Docker build**. The goal was to keep compilers and development dependencies in a temporary build stage while copying only the application, Python packages and required runtime library into the final image.
+
+The original single-stage Dockerfile remains useful for understanding the initial build process. The multi-stage version is an optimisation of that same application rather than a replacement for the concepts learned earlier.
+
+## Multi-Stage Dockerfile
+
+```dockerfile
+# =========================
+# STAGE 1 — BUILD STAGE
+# =========================
+
+# Use Python 3.8 slim as the base image and name this stage "build"
+FROM python:3.8-slim AS build
+
+# Set /app as the working directory inside the build stage
+WORKDIR /app
+
+# Install the Linux packages needed to BUILD mysqlclient
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    default-libmysqlclient-dev \
+    build-essential
+
+# Install Flask and mysqlclient into /install
+# This lets us copy the Python packages into Stage 2
+RUN pip install --prefix=/install \
+    flask \
+    mysqlclient
+
+# Copy the project files into /app
+COPY . .
+
+
+# =========================
+# STAGE 2 — RUNTIME STAGE
+# =========================
+
+# Start again with a fresh Python 3.8 slim image
+FROM python:3.8-slim
+
+# Set /app as the working directory
+WORKDIR /app
+
+# Install only the native library mysqlclient needs at runtime
+# Compiler and development packages from Stage 1 are not included
+RUN apt-get update && apt-get install -y \
+    libmariadb3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the Python packages installed in Stage 1
+COPY --from=build /install /usr/local
+
+# Copy the application files from Stage 1
+COPY --from=build /app /app
+
+# Document the Flask application port
+EXPOSE 5002
+
+# Start the Flask application
+CMD ["python", "app.py"]
+```
+
+## How the Two Stages Work
+
+```text
+STAGE 1 — BUILD
+Python
++ compiler/build tools
++ MySQL development libraries
++ Flask
++ mysqlclient
++ application code
+        │
+        │ copy only what is needed
+        ↓
+STAGE 2 — RUNTIME
+Python
++ Flask
++ mysqlclient
++ libmariadb3
++ application code
+```
+
+The compiler, `build-essential`, development headers and other build-only dependencies are discarded when Stage 1 finishes. They are not carried into the final runtime image.
+
+## Build the Multi-Stage Image
+
+```bash
+docker build -t my-flask-app:multistage .
+```
+
+The original image was approximately **796 MB**, while the working multi-stage image was approximately **189 MB**.
+
+```text
+Original image      ~796 MB
+Multi-stage image   ~189 MB
+Reduction           ~76%
+```
+
+This demonstrates one of the main benefits of multi-stage builds: the final image contains only what is required to run the application.
+
+## Debugging the Multi-Stage Build
+
+The first multi-stage attempt copied the application into Stage 2 but did not copy the installed Python packages. The container therefore failed with:
+
+```text
+ModuleNotFoundError: No module named 'flask'
+```
+
+Python packages were then installed into `/install` during Stage 1 and copied into `/usr/local` in Stage 2.
+
+The next test produced:
+
+```text
+ImportError: libmariadb.so.3: cannot open shared object file
+```
+
+This showed an important distinction between **build dependencies** and **runtime dependencies**. `mysqlclient` had been successfully built and copied, but still required the MariaDB shared library when the application ran.
+
+Installing `libmariadb3` in the runtime stage solved the dependency issue without carrying the compiler and development tools into the final image.
+
+```text
+Build dependencies
+→ required to create/build software
+→ remain in Stage 1
+
+Runtime dependencies
+→ required when the software executes
+→ included in Stage 2
+```
+
+## Testing with Docker Compose
+
+Running the Flask image directly started the application successfully, but a request returned:
+
+```text
+Unknown server host 'db'
+```
+
+This was expected because `db` is the Docker Compose service name. A standalone `docker run` container does not automatically have the Compose service discovery used by the application.
+
+The complete application was therefore rebuilt and started with Compose:
+
+```bash
+docker compose down
+docker compose up -d --build
+```
+
+Compose automatically used the final stage of the multi-stage Dockerfile for the `web` service. No change to `docker-compose.yml` was required.
+
+The final architecture remained:
+
+```text
+Browser
+   ↓
+localhost:5002
+   ↓
+web — Flask multi-stage image
+   ↓
+Compose network
+   ↓
+db — MySQL
+```
+
+The application successfully loaded at `localhost:5002`, confirming that the optimised multi-stage image worked with the existing Flask + MySQL Compose setup.
+
+## Multi-Stage Build Takeaway
+
+```text
+Large build environment
+        ↓
+Build application/dependencies
+        ↓
+Copy runtime requirements only
+        ↓
+Small final runtime image
+```
+
+Multi-stage builds separate the environment needed to **build** an application from the environment needed to **run** it. This reduces image size and avoids shipping unnecessary compilers and development tooling in the final container.
