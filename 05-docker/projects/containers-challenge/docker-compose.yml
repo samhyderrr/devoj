@@ -1,0 +1,13 @@
+services:                         # Define all containers/services in our application
+
+  web:                            # Our Flask service
+    build: ./app                  # Build using the Dockerfile inside ./app
+    ports:
+      - "5000:5000"               # PC port 5000 → Flask container port 5000
+    depends_on:
+      - redis                     # Start the Redis service before Flask
+
+  redis:                          # Our Redis service
+    build: ./redis                # Build using the Dockerfile inside ./redis
+    ports:
+      - "6379:6379"               # PC port 6379 → Redis container port 6379
