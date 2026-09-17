@@ -1,113 +1,63 @@
-# DevOps Learning Journey
+# My DevOps Journey 🚀
 
-Your personal repository for tracking progress through the CoderCo DevOps curriculum.
+Welcome to my DevOps learning repository.
 
-## Quick Start
+This repo documents my journey as I build my skills across **Linux, Bash, Git, networking, Docker, AWS, Terraform, CI/CD and Kubernetes**. Rather than only keeping course notes, I'm using this repository to document what I learn, practise the tools myself, and build hands-on projects along the way.
 
-1. Click **"Use this template"** then **"Create a new repository"**
-2. Clone your new repo locally
-3. Start learning and commit your progress
+The goal is simple: **learn it, build it, break it, fix it, and understand why it works.**
 
-![UseTemplate](./images/UseTemplate.png)
+## 📁 Repository Structure
 
-![CreateRepo](./images/Createrepo.png)
-
-## Repository Structure
-
-```
-devops-learning/
-├── 01-linux/           # Linux Fundamentals
-├── 02-bash/            # Bash Scripting
-├── 03-git/             # Version Control
-├── 04-networking/      # How the Internet Works
-├── 05-docker/          # Containers
-├── 06-aws/             # Cloud (AWS)
-├── 07-terraform/       # Infrastructure as Code
-├── 08-cicd/            # CI/CD Pipelines
-├── 09-kubernetes/      # Container Orchestration
-└── challenges/         # Extra Challenges
+```text
+devoj/
+├── 01-linux/           # Linux fundamentals and command-line practice
+├── 02-bash/            # Bash scripting and automation
+├── 03-git/             # Git, GitHub and version control
+├── 04-networking/      # Networking fundamentals and hands-on projects
+├── 05-docker/          # Containers, Dockerfiles, Compose and container projects
+├── 06-aws/             # AWS and cloud infrastructure
+├── 07-terraform/       # Infrastructure as Code with Terraform
+├── 08-cicd/            # CI/CD pipelines and automation
+└── 09-kubernetes/      # Kubernetes and container orchestration
 ```
 
-Each module contains:
-- **notes/** – Your personal notes and summaries
-- **labs/** – Completed lab exercises
-- **projects/** – Hands-on projects
+## 🔎 What You'll Find Inside
 
-## Progress Tracker
+Each section represents a different stage of my DevOps journey. Depending on the module, you'll find a mixture of:
 
-| Module | Status | Notes | Labs | Projects |
-|--------|--------|-------|------|----------|
-| 01 - Linux | Not Started | 0/0 | 0/0 | 0/0 |
-| 02 - Bash | Not Started | 0/0 | 0/0 | 0/0 |
-| 03 - Git | Not Started | 0/0 | 0/0 | 0/0 |
-| 04 - Networking | Not Started | 0/0 | 0/0 | 0/0 |
-| 05 - Docker | Not Started | 0/0 | 0/0 | 0/0 |
-| 06 - AWS | Not Started | 0/0 | 0/0 | 0/0 |
-| 07 - Terraform | Not Started | 0/0 | 0/0 | 0/0 |
-| 08 - CI/CD | Not Started | 0/0 | 0/0 | 0/0 |
-| 09 - Kubernetes | Not Started | 0/0 | 0/0 | 0/0 |
+- **Notes** — concepts rewritten in my own words for future reference.
+- **Practice** — commands, scripts and smaller exercises used to reinforce what I've learned.
+- **Projects** — hands-on builds where I put the concepts into practice.
+- **Challenges** — exercises completed with less guidance to test my understanding.
+- **README guides** — documentation explaining what I built, the commands I used, problems I encountered and how things work.
 
-Update this table as you progress.
+## 🛠️ Technologies I'm Learning
 
-## How to Use This Repo
+`Linux` · `Bash` · `Git` · `GitHub` · `Networking` · `Docker` · `Docker Compose` · `AWS` · `Terraform` · `CI/CD` · `Kubernetes`
 
-### Taking Notes
+As I progress, this repository will continue to grow with new tools, projects and infrastructure.
 
-After each lesson, create a note:
+## 🐳 Current Focus — Docker
 
-```bash
-touch 01-linux/notes/file-permissions.md
-```
+I'm currently working through containerisation and Docker, including:
 
-Write in your own words – this helps you remember.
+- Building Docker images with Dockerfiles
+- Running and managing containers
+- Container networking
+- Multi-container applications
+- Docker Compose
+- Multi-stage builds
+- Working with container registries
+- Building hands-on Flask, MySQL and Redis projects
 
-### Completing Labs
+## 🎯 Why This Repo Exists
 
-Document what you did and what you learned:
+This isn't intended to be a collection of copied course material. It's a record of my progression from understanding individual DevOps concepts to being able to use them together in real projects.
 
-```bash
-touch 01-linux/labs/lab01-basic-commands.md
-```
+Some folders contain early exercises, while later projects show how those same fundamentals begin connecting together — from Linux and Bash through networking, containers, cloud infrastructure and eventually orchestration.
 
-Include commands, outputs, and any errors you hit.
-
-### Building Projects
-
-Create a folder with your code and a README:
-
-```
-01-linux/projects/backup-script/
-├── backup.sh
-└── README.md
-```
-
-## Best Practices
-
-**Commit often** – After each lesson, lab, or meaningful progress.
-
-**Write good commit messages:**
-
-```bash
-# Bad
-git commit -m "updates"
-
-# Good
-git commit -m "Add notes on Linux file permissions"
-```
-
-**Stay organised** – Put files in the right folders.
-
-**Share your progress** – Post on LinkedIn, tag @CoderCo!
-
-## Useful Links
-
-- [CoderCo Community](https://www.skool.com/coderco)
-- [CoderCo Dotfiles](https://github.com/coderco-learning/dotfiles)
-
-## License
-
-MIT – Use this template however you like.
+I'll continue updating this repository as I progress through my DevOps journey.
 
 ---
 
-Questions? Ask in the CoderCo community.
+**Thanks for visiting — feel free to explore the folders and follow along with my journey.**
